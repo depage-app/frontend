@@ -21,6 +21,7 @@ export function Connect() {
           <Button
             type="button"
             variant="destructive"
+            className="w-full"
             onClick={() => disconnect()}
           >
             Disconnect from {connector?.name}

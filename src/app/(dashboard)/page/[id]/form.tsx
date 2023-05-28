@@ -52,7 +52,7 @@ export default function PageForm({
       toast({
         variant: "destructive",
         title: "Uh oh! Something went wrong",
-        // description: error.detail,
+        description: error.message,
       });
       console.log("Error", error);
     },

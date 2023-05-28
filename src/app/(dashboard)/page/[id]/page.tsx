@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import { H2 } from "~/components/typography";
 import { API_URL } from "~/lib/api";
 import PageForm from "./form";
+import { NetworkSwitcher } from "~/components/network-switcher";
+import NetworkSwitcherWarning from "./network-switcher";
 
 export default async function Page({
   params,
@@ -24,6 +26,7 @@ export default async function Page({
           <div className="container text-center">
             <H2 className="border-b-0">{pageData.name}</H2>
             <p className="text-slate-500">{pageData.description}</p>
+            <NetworkSwitcherWarning contract_chain_id={pageData.chain_id} />
           </div>
         </div>
         {pageData.config.map((config) =>
