@@ -22,6 +22,7 @@ import { Pencil } from "lucide-react";
 import { API_URL } from "~/lib/api";
 import { useToast } from "~/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { Subtle } from "~/components/typography";
 
 const formSchema = z.object({
   smart_contract_address: z
@@ -46,13 +47,18 @@ export default function InitializeForm({ networks }: { networks: Network[] }) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       smart_contract_address: "",
-      chain: undefined,
+      chain: "polygon",
     },
   });
 
   async function onSubmit(values: FormData) {
-    console.log(values, address);
-    if (!address) return;
+    // console.log(values, address);
+    if (!address) {
+      toast({
+        title: "Connect your wallet first <3",
+      });
+      return;
+    }
 
     const url = new URL(`${API_URL}/page`);
 
@@ -105,54 +111,76 @@ export default function InitializeForm({ networks }: { networks: Network[] }) {
     }
   }
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-5">
-        <FormField
-          control={form.control}
-          name="chain"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Network</FormLabel>
-              <FormControl>
-                <Suspense>
-                  <NetworkSelect
-                    networks={networks}
-                    value={field.value}
-                    onChange={field.onChange}
+    <>
+      <Button
+        onClick={() =>
+          onSubmit({
+            smart_contract_address:
+              "0x5B0Fe25Ba056C32fF467D6DeA42aDbE3C0a241Be",
+            chain: "polygon",
+          })
+        }
+        variant="outline"
+        size="lg"
+        className="w-full"
+      >
+        Create from our NFT mint example contract
+      </Button>
+      <div className="relative my-5 text-center">
+        <div className="absolute top-1/2 -translate-y-1/2 w-full h-[1px] bg-border" />
+        <span className="relative bg-white py-1 px-3 text-sm text-slate-600">
+          or create your own
+        </span>
+      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-5">
+          <FormField
+            control={form.control}
+            name="chain"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Network</FormLabel>
+                <FormControl>
+                  <Suspense>
+                    <NetworkSelect
+                      networks={networks}
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </Suspense>
+                </FormControl>
+                <FormDescription>Select your network</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="smart_contract_address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="0xEf1c6E67703c7BD7107eed8303Fbe6EC2554BF6B"
+                    {...field}
                   />
-                </Suspense>
-              </FormControl>
-              <FormDescription>Select your network</FormDescription>
-              <FormMessage />
-            </FormItem>
+                </FormControl>
+                <FormDescription>Enter your address</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {isConnected ? (
+            <Button size="lg" type="submit" className="w-full mt-1">
+              <Pencil className="w-5 mr-2" />
+              Create a configuration
+            </Button>
+          ) : (
+            <Connect />
           )}
-        />
-        <FormField
-          control={form.control}
-          name="smart_contract_address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="0xEf1c6E67703c7BD7107eed8303Fbe6EC2554BF6B"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>Enter your address</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {isConnected ? (
-          <Button size="lg" type="submit" className="w-full mt-1">
-            <Pencil className="w-5 mr-2" />
-            Create a configuration
-          </Button>
-        ) : (
-          <Connect />
-        )}
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </>
   );
 }

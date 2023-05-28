@@ -1,4 +1,4 @@
-import { H2 } from "~/components/typography";
+import { H2, Subtle } from "~/components/typography";
 import InitializeForm from "./initialize-form";
 import { API_URL } from "~/lib/api";
 
@@ -11,11 +11,12 @@ export default async function Page() {
     cache: "no-cache",
   }).then((res) => res.json());
   return (
-    <div className="container py-20">
+    <div className="container py-10">
       <div className="w-full max-w-lg mx-auto">
-        <H2 className="text-center mt-4 mb-12 border-b-0">
-          Find your contract
-        </H2>
+        <div className="mt-4 mb-12 text-center">
+          <H2 className=" border-b-0">Create your page</H2>
+          <Subtle>Automatically create UI for your smart contract</Subtle>
+        </div>
         <InitializeForm networks={networks.data} />
       </div>
     </div>
