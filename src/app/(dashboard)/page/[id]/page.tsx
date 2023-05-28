@@ -26,15 +26,17 @@ export default async function Page({
             <p className="text-slate-500">{pageData.description}</p>
           </div>
         </div>
-        {pageData.config.map((config) => (
-          <PageForm
-            key={config.id}
-            data={config}
-            abi={pageData.abi}
-            chain_id={pageData.chain_id}
-            contract_address={pageData.contract_address}
-          />
-        ))}
+        {pageData.config.map((config) =>
+          config.hidden ? null : (
+            <PageForm
+              key={config.id}
+              data={config}
+              abi={pageData.abi}
+              chain_id={pageData.chain_id}
+              contract_address={pageData.contract_address}
+            />
+          )
+        )}
       </>
     );
   } catch {

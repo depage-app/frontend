@@ -10,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "~/components/ui/tooltip";
+import Link from "next/link";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const url = new URL(`${API_URL}/page`);
@@ -51,8 +52,14 @@ export default async function Page({ params }: { params: { id: string } }) {
                 </Tooltip>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button variant="outline">
-                      <ExternalLink className="w-5" />
+                    <Button asChild variant="outline">
+                      <Link
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href={`/page/${pageData.id}`}
+                      >
+                        <ExternalLink className="w-5" />
+                      </Link>
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent className="m-2">Show page</TooltipContent>

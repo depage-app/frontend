@@ -17,7 +17,7 @@ export default function HeaderAccount() {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="secondary">
+        <Button variant="outline">
           <Account />
           <ChevronDown className="ml-2 w-4" />
         </Button>

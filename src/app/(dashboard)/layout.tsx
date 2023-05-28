@@ -9,20 +9,16 @@ export default function Layout({ children }: PropsWithChildren) {
         <div className="flex items-center justify-between container">
           <div className="flex items-center gap-20">
             <span className="font-black text-xl">DePage</span>
-            <div className="">
-              <Button asChild variant="ghost">
-                <Link href="/" className="">
-                  Home
-                </Link>
-              </Button>
-              <Button asChild variant="ghost">
-                <Link href="/find-contract" className="">
-                  Find contract
-                </Link>
-              </Button>
-            </div>
           </div>
-          <HeaderAccount />
+          <div className="flex items-center">
+            <Button asChild variant="outline">
+              <Link href="/find-contract" className="">
+                Create new page
+              </Link>
+            </Button>
+            <span className="block mx-4 h-[30px] w-[1px] bg-border" />
+            <HeaderAccount />
+          </div>
         </div>
       </header>
       <main>{children}</main>
