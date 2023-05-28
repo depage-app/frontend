@@ -18,11 +18,15 @@ export default function NetworkSelect({
   return (
     <Select value={value} onValueChange={onChange} name="network">
       <SelectTrigger>
-        <SelectValue placeholder="Tether" />
+        <SelectValue placeholder="Polygon" />
       </SelectTrigger>
       <SelectContent>
         {networks.map((network) => (
-          <SelectItem key={network.id} value={network.id}>
+          <SelectItem
+            key={network.id}
+            value={network.id}
+            disabled={network.disabled}
+          >
             {network.name}
           </SelectItem>
         ))}

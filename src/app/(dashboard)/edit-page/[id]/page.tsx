@@ -40,7 +40,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                   </TooltipTrigger>
                   <TooltipContent className="m-2">Save updates</TooltipContent>
                 </Tooltip>
-                <Tooltip>
+                {/* <Tooltip>
                   <TooltipTrigger asChild>
                     <Button variant="outline">
                       <Copy className="w-5" />
@@ -49,7 +49,7 @@ export default async function Page({ params }: { params: { id: string } }) {
                   <TooltipContent className="m-2">
                     Copy page link
                   </TooltipContent>
-                </Tooltip>
+                </Tooltip> */}
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button asChild variant="outline">
@@ -64,14 +64,14 @@ export default async function Page({ params }: { params: { id: string } }) {
                   </TooltipTrigger>
                   <TooltipContent className="m-2">Show page</TooltipContent>
                 </Tooltip>
-                <Tooltip>
+                {/* <Tooltip>
                   <TooltipTrigger asChild>
                     <Button variant="destructive">
                       <Trash className="w-5" />
                     </Button>
                   </TooltipTrigger>
                   <TooltipContent className="m-2">Delete page</TooltipContent>
-                </Tooltip>
+                </Tooltip> */}
               </div>
             </TooltipProvider>
           </div>

@@ -7,9 +7,9 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const networks: { data: Network[] } = await fetch(`${API_URL}/chains`).then(
-    (res) => res.json()
-  );
+  const networks: { data: Network[] } = await fetch(`${API_URL}/chains`, {
+    cache: "no-cache",
+  }).then((res) => res.json());
   return (
     <div className="container py-20">
       <div className="w-full max-w-lg mx-auto">

@@ -1,18 +1,11 @@
 "use client";
 
-import { Send } from "lucide-react";
-import Link from "next/link";
+import { ExternalLink, Send } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { stringToBytes } from "viem";
-import {
-  useAccount,
-  useContractWrite,
-  useNetwork,
-  useSwitchNetwork,
-  useWaitForTransaction,
-} from "wagmi";
+import { useAccount, useContractWrite } from "wagmi";
 import { Connect } from "~/components/connect";
-import { H3, P, Subtle } from "~/components/typography";
+import { H3, Subtle } from "~/components/typography";
 import { Badge } from "~/components/ui/badge";
 import { Button } from "~/components/ui/button";
 import {
@@ -24,7 +17,6 @@ import {
   FormLabel,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { ToastAction } from "~/components/ui/toast";
 import { useToast } from "~/components/ui/use-toast";
 
 type Props = Pick<PageData, "abi" | "chain_id" | "contract_address"> & {
@@ -51,13 +43,7 @@ export default function PageForm({
     },
   });
 
-  const {
-    write,
-    data: contractData,
-    error,
-    isLoading,
-    isError,
-  } = useContractWrite({
+  const { write, isLoading } = useContractWrite({
     abi,
     address: contract_address as any,
     chainId: chain_id,
@@ -74,39 +60,36 @@ export default function PageForm({
       console.log("Success", data);
       toast({
         title: "Hooray! Your transaction has been executed",
-        action: (
-          <ToastAction altText="Open Explorer">
+        description: (
+          <Button size="sm" variant="outline" asChild>
             <a
               href={`https://polygonscan.com/tx/${data.hash}`}
               target="_blank"
               rel="noopener noreferrer"
+              className="mt-1"
             >
+              <ExternalLink className="w-4 mr-2" />
               Open Explorer
             </a>
-          </ToastAction>
+          </Button>
         ),
       });
     },
   });
 
-  const {
-    data: receipt,
-    isLoading: isPending,
-    isSuccess,
-  } = useWaitForTransaction({ hash: contractData?.hash });
+  // const {
+  //   data: receipt,
+  //   isLoading: isPending,
+  //   isSuccess,
+  // } = useWaitForTransaction({ hash: contractData?.hash });
 
   function onSubmit(data: ContractFunction) {
     const allValues = data.inputs.map((input) => {
-      let value;
-
-      if (input.type.startsWith("uint")) {
-        value = BigInt(input.value);
-      }
-
-      if (input.type === "bytes") {
-        value = stringToBytes(input.value as any);
-      }
-      return input.value;
+      let value: any = input.value;
+      if (input.type.startsWith("uint")) value = BigInt(input.value);
+      if (input.type === "bytes") value = stringToBytes(input.value as any);
+      if (input.type === "address[]") value = input.value.split(",");
+      return value;
     });
     write({
       args: allValues,
@@ -153,7 +136,7 @@ export default function PageForm({
           </div>
           {isConnected ? (
             <Button
-              disabled={isPending || isLoading}
+              disabled={isLoading}
               size="lg"
               type="submit"
               className="w-full mt-1"

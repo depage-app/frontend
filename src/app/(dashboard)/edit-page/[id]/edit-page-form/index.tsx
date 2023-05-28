@@ -104,7 +104,10 @@ export default function EditPageForm({ data }: Props) {
           {data.config.map((func, index) => {
             const isFunctionActive = !form.getValues(`config.${index}.hidden`);
             return (
-              <div className="p-4 rounded-lg border" key={func.id}>
+              <div
+                className="p-4 rounded-lg border"
+                key={`${func.id}-${index}`}
+              >
                 <div className="flex items-center gap-10">
                   <FunctionTitle
                     titleName={`config.${index}.name`}
@@ -130,25 +133,30 @@ export default function EditPageForm({ data }: Props) {
                         </FormItem>
                       )}
                     />
-                    <hr className="my-5" />
-                    <div className="grid gap-6 mb-3">
-                      {func.inputs.map((funcField, fieldIndex) => {
-                        return (
-                          <div
-                            key={funcField.id}
-                            className="grid gap-4 items-center [&:not(:last-child)]:border-b [&:not(:last-child)]:pb-5"
-                          >
-                            <FunctionField
-                              inputs={func.inputs}
-                              formInstance={form}
-                              funcIndex={index}
-                              fieldIndex={fieldIndex}
-                              title={funcField.id}
-                            />
-                          </div>
-                        );
-                      })}
-                    </div>
+
+                    {!!func.inputs.length ? (
+                      <>
+                        <hr className="my-5" />
+                        <div className="grid gap-6 mb-3">
+                          {func.inputs.map((funcField, fieldIndex) => {
+                            return (
+                              <div
+                                key={funcField.id}
+                                className="grid gap-4 items-center [&:not(:last-child)]:border-b [&:not(:last-child)]:pb-5"
+                              >
+                                <FunctionField
+                                  inputs={func.inputs}
+                                  formInstance={form}
+                                  funcIndex={index}
+                                  fieldIndex={fieldIndex}
+                                  title={funcField.id}
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </>
+                    ) : null}
                   </>
                 ) : null}
               </div>

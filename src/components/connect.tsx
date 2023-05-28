@@ -5,6 +5,7 @@ import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { Button } from "./ui/button";
 import { Loader2 } from "lucide-react";
 import walletConnectIcon from "./wallet-connect-icon.svg";
+import metamaskIcon from "./metamask-icon.svg";
 import Image from "next/image";
 
 export function Connect() {
@@ -12,8 +13,6 @@ export function Connect() {
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect();
   const { disconnect } = useDisconnect();
-
-  console.log(connectors);
 
   return (
     <div>
@@ -44,6 +43,15 @@ export function Connect() {
                     height={20}
                     src={walletConnectIcon}
                     alt="WalletConnect"
+                  />
+                )}
+                {x.id === "metaMask" && (
+                  <Image
+                    className="mr-2"
+                    width={20}
+                    height={20}
+                    src={metamaskIcon}
+                    alt="MetaMask"
                   />
                 )}
                 {x.name}

@@ -46,7 +46,7 @@ export default function InitializeForm({ networks }: { networks: Network[] }) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       smart_contract_address: "",
-      chain: networks[1].id,
+      chain: undefined,
     },
   });
 
