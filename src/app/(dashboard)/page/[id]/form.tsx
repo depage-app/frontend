@@ -88,7 +88,8 @@ export default function PageForm({
       let value: any = input.value;
       if (input.type.startsWith("uint")) value = BigInt(input.value);
       if (input.type === "bytes") value = stringToBytes(input.value as any);
-      if (input.type === "address[]") value = input.value.split(",");
+      if (input.type.includes("[]"))
+        value = input.value.replace(/[\[\] ]/g, "").split(",");
       return value;
     });
     write({
